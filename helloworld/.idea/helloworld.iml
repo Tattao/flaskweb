@@ -9,7 +9,7 @@
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="E:/flaskweb\templates" />
+        <option value="$MODULE_DIR$/../helloworld\templates" />
       </list>
     </option>
   </component>
