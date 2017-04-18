@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}目标管理{% endblock %}
+
+
+{% block page_content %}
+<div id="page-wrapper">
+<div class="col-lg-10 main table-responsive">
+        <div class="breadcrumb">
+            <span>目标管理</span>
+        </div>
+{% include '_management.html' %}
+{% if pagination %}
+<div class="pagination">
+{#    注意当url需要传递参数的时候，需要在'.management'后面接着写出所有需要传递的参数，用逗号隔开#}
+    {{ macros.pagination_widget(pagination, '.management') }}
+</div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

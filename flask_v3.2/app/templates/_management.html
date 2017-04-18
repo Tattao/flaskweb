@@ -1,0 +1,40 @@
+ <!-- table s -->
+    <div class="col-lg-10 main table-responsive">
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+{#                    <th><input type="checkbox" id="J_selectAllCheckBox" onclick="return selectBox();"></th>#}
+                    <th>系统名称</th>
+                    <th>目标状态</th>
+                    <th>运行分值</th>
+                    <th>历史趋势</th>
+                    <th>详细信息</th>
+{#                    <th class="text-center" style="width:200px;">操作</th>#}
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr>
+{#                    <td><input type="checkbox" name="id" value=""></td>#}
+                    <td>{{ post.sysname }}</td>
+                    <td>{{ post.status }}</td>
+                    <td>{{ post.score }}</td>
+{#                    传给第二层。只需要传递系统名称。作为URL#}
+{#                    传给图表时，由于图表展现属于第五层级。因此需要做处理。#}
+{#                    也是因为这个原因。需要tablename作为表的主键#}
+{#                    就是说如果这个层级需要加详细信息，则要求aop_system表种添加一列#}
+{#                    所以此处将sys_id赋值了三次#}
+                    <td><a role="button" class="btn btn-info btn-sm j-hty"
+                           href="#">图表</a></td>
+                    <td><a role="button" class="btn btn-info btn-sm j-more"
+                           href="{{ url_for('.management_2',sys_id=post.sys_id,sysname=post.sysname) }}">更多</a></td>
+{#                    <td class="text-center">#}
+{#                        <a role="button" class="btn btn-info btn-sm j-edit">编辑</a>#}
+{#                        <a role="button" class="btn btn-warning btn-sm j-del">删除</a>#}
+{#                    </td>#}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<!-- table e -->

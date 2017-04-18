@@ -1,0 +1,94 @@
+{{ post }}_option = {
+    title : {
+        text: '{{ dic_table[post]['table_cn_name'] }}',
+        subtext: '当前分数：{{ dic_table[post]['score1'][-1] | safe }}',
+        x: 'center',
+        align: 'right'
+    },
+    grid: {
+        bottom: 80
+    },
+    toolbox: {
+        feature: {
+            dataZoom: {
+                yAxisIndex: 'none'
+            },
+            restore: {},
+            saveAsImage: {}
+        }
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer: {
+            animation: false
+        }
+    },
+    legend: {
+        data:['分值'],
+        x: 'left'
+    },
+    dataZoom: [
+        {
+            show: true,
+            realtime: true,
+            start: 65,
+            end: 85
+        },
+        {
+            type: 'inside',
+            realtime: true,
+            start: 65,
+            end: 85
+        }
+    ],
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            axisLine: {onZero: false},
+            data : {{ dic_table[post]['end_time'] | safe }}.map(function (str) {
+                return str.replace(' ', '\n')
+            })
+        }
+    ],
+    yAxis: [
+        {
+            name: '分数(s)',
+            type: 'value',
+        },
+        {
+            name: '分数(s)',
+            nameLocation: 'start',
+            type: 'value',
+            inverse: true
+        }
+    ],
+    series: [
+        {
+            name:'分值',
+            type:'line',
+            animation: false,
+            lineStyle: {
+                normal: {
+                    width: 1
+                }
+            },
+            data: {{ dic_table[post]['score1'] | safe }}
+        }
+{#        ,{#}
+{#            name:'输出2',#}
+{#            type:'line',#}
+{#            yAxisIndex:1,#}
+{#            animation: false,#}
+{#            areaStyle: {#}
+{#                normal: {}#}
+{#            },#}
+{#            lineStyle: {#}
+{#                normal: {#}
+{#                    width: 1#}
+{#                }#}
+{#            },#}
+{#            data: {{ dic_table[post]['score2'] | safe }}#}
+{#        }#}
+    ]
+};

@@ -1,0 +1,93 @@
+{#{% extends "bootstrap/base.html" %}#}
+{#这里 {% extends %} 标记是关键，它告诉模板引擎这个模板“扩展”了另一个模板，
+当模板系统评估这个模板时会先找到父模板。这个扩展标记必须是模板中的第一个标记。
+如果要使用父模板中的块内容，请使用 {{ super() }} 。#}
+{% block doc -%}
+<!DOCTYPE html>
+<html{% block html_attribs %}{% endblock html_attribs %}>
+{%- block html %}
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}运维自动化{% endblock title %}</title>
+
+    {%- block metas %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {%- endblock metas %}
+
+    {%- block styles %}
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ url_for('static',filename='sb-admin/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ url_for('static',filename='sb-admin/vendor/metisMenu/metisMenu.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static',filename='sb-admin/dist/css/sb-admin-2.css') }}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{{ url_for('static',filename='sb-admin/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    {%- endblock styles %}
+    {%- endblock head %}
+</head>
+
+<body{% block body_attribs %}{% endblock body_attribs %}>
+    {% block body -%}
+        <div id="wrapper">
+    {% block navbar %}
+        {% include "_navigation.html" %}
+    {%- endblock navbar %}
+    {% block page_content -%}
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Blank</h1>
+                    </div>
+                    <!-- /.col-lg-12 -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </div>
+        <!-- /#page-wrapper -->
+    {%- endblock page_content %}
+        </div>
+        <!-- footer -->
+        <div class="mc-footer"><p>版权信息</p></div>
+
+    {% block scripts %}
+    <!-- jQuery -->
+    <script src="{{ url_for('static',filename='sb-admin/vendor/jquery/jquery.min.js') }}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{{ url_for('static',filename='sb-admin/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{{ url_for('static',filename='sb-admin/vendor/metisMenu/metisMenu.js') }}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{{ url_for('static',filename='sb-admin/dist/js/sb-admin-2.js') }}"></script>
+    {{ moment.include_moment() }}
+    {%- endblock scripts %}
+    {%- endblock body %}
+</body>
+{%- endblock html %}
+</html>
+{% endblock doc -%}
+
+
+
+

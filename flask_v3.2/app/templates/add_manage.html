@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}添加系统{% endblock %}
+
+{% block page_content %}
+    <div id="page-wrapper">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="col-lg-12">
+        <h2 style="text-align: center">{{ messages }}</h2>
+        </div>
+    {% endif %}
+    {% endwith %}
+        {{ wtf.quick_form(form) }}
+    </div>
+{% endblock %}

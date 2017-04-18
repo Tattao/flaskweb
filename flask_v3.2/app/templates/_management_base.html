@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{#这里 {% extends %} 标记是关键，它告诉模板引擎这个模板“扩展”了另一个模板，
+当模板系统评估这个模板时会先找到父模板。这个扩展标记必须是模板中的第一个标记。
+如果要使用父模板中的块内容，请使用 {{ super() }} 。#}
+{% block title %}运维自动化{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='src/css/main.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='src/js/lib/zTree/css/zTreeStyle/zTreeStyle.css') }}">
+{% endblock %}
+
+{% block navbar %}
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="col-lg-2 main-left">
+             <div class="leftTree">
+                <ul id="treeDemo" class="ztree"></ul>
+             </div>
+    </div>
+    {{ super() }}
+
+
+    {% block page_content %}{% endblock %}
+
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+    <script type="text/javascript" src="{{ url_for('static', filename='src/js/lib/jquery_1.11.3.min.js') }}">
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='src/js/lib/bootstrap_3.3.6.min.js') }}">
+    </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='src/js/lib/zTree/js/jquery.ztree.core-3.5.js') }}">
+    </script>
+    <script>
+        var setting = {
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                beforeClick: this.beforeClick,
+                onClick: this.onClick
+            }
+        };
+
+        //点击事件
+        function onClick(e, treeId, node) {
+           alert(node.id+","+node.name);
+        }
+
+        var zNodes =[
+            { id:1, pId:0, name:"业务系统1", open:true},
+            { id:11, pId:1, name:"数据库1", open:true},
+            { id:111, pId:11, name:"数据库指标1"},
+            { id:112, pId:11, name:"数据库指标2"},
+            { id:113, pId:11, name:"数据库指标3"},
+            { id:114, pId:11, name:"数据库指标4"},
+            { id:12, pId:1, name:"数据库2", open:true},
+            { id:121, pId:12, name:"数据库指标1"},
+            { id:122, pId:12, name:"数据库指标2"},
+            { id:123, pId:12, name:"数据库指标3"},
+            { id:124, pId:12, name:"数据库指标4"},
+            { id:2, pId:0, name:"业务系统2", open:true},
+            { id:21, pId:2, name:"数据库1", open:true},
+            { id:211, pId:21, name:"数据库指标1"},
+            { id:212, pId:21, name:"数据库指标2"},
+            { id:213, pId:21, name:"数据库指标3"},
+            { id:214, pId:21, name:"数据库指标4"},
+            { id:22, pId:2, name:"数据库2", open:true},
+            { id:221, pId:22, name:"数据库指标1"},
+            { id:222, pId:22, name:"数据库指标2"},
+            { id:223, pId:22, name:"数据库指标3"},
+            { id:224, pId:22, name:"数据库指标4"}
+        ];
+
+        $(document).ready(function(){
+            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        });
+    </script>
+{% endblock %}

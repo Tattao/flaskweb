@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}目标管理{% endblock %}
+
+
+{% block page_content %}
+    <div id="page-wrapper">
+    <div class="col-lg-10 main table-responsive">
+        <div class="breadcrumb">
+            <a href="{{ url_for('main.management') }}">目标管理</a> &gt;
+            <a href="{{ url_for('main.management_2',sys_id=sys_id,sysname=sysname) }}" target="_self">{{ sysname }}</a> &gt;
+            {% if table_name != 'score_db' %}
+            <a href="{{ url_for('main.management_3',sys_id=sys_id,object_id=object_id,sysname=sysname,instance_name=instance_name)}}" target="_self">{{ instance_name }}</a> &gt;
+            {% endif %}
+                            <span>{{ chart_name }}</span>
+        </div>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    {% for post in list_table %}
+    <div id="{{ post }}" class="col-lg-6" style="height: 400px">
+    </div>
+    {% endfor %}
+    <!-- 引入echarts.js -->
+    </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for('static',filename='echarts.js') }}"></script>
+<script>
+    {% for post in list_table%}
+    var {{ post }} = echarts.init(document.getElementById('{{ post }}'));
+    /*用来配置参数*/
+    {% include "_charts.html" %}
+     /*调用option生成图表*/
+        {{ post }}.setOption({{ post }}_option)
+    {% endfor %}
+</script>
+{% endblock %}

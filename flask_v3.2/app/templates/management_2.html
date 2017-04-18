@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}目标管理{% endblock %}
+
+
+{% block page_content %}
+<div id="page-wrapper">
+<div class="col-lg-10 main table-responsive">
+        <div class="breadcrumb">
+            <a href="{{ url_for('main.management') }}">目标管理</a> &gt;
+                            <span>{{ sysname }}</span>
+        </div>
+{% include '_management_2.html' %}
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.management_2',sys_id=sys_id,sysname=sysname) }}
+</div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}

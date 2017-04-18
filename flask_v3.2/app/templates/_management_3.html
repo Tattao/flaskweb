@@ -1,0 +1,34 @@
+ <!-- table s -->
+
+        <table class="table table-condensed table-hover">
+            <thead>
+                <tr>
+{#                    <th><input type="checkbox" id="J_selectAllCheckBox" onclick="return selectBox();"></th>#}
+                    <th>模块名称</th>
+                    <th>模块分值</th>
+                    <th>历史趋势</th>
+                    <th>详细信息</th>
+{#                    <th class="text-center" style="width:200px;">操作</th>#}
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+{#                此处model_id的命名有层级关系。总表递增值为100，子表递增值为10.通过取余操作可判断表类型#}
+                {% if post.model_id % 100 == 0 %}
+                <tr>
+{#                    <td><input type="checkbox" name="id" value=""></td>#}
+                    <td>{{ post.model_name }}</td>
+                    <td>{{ post.score }}</td>
+                    <td><a role="button" class="btn btn-info btn-sm j-hty" href="{{ url_for('.charts',sys_id=sys_id,object_id=object_id,table_name=post.table_name,sysname=sysname,instance_name=instance_name) }}">图表</a></td>
+                    <td><a role="button" class="btn btn-info btn-sm j-more" href="{{ url_for('.charts',sys_id=sys_id,object_id=object_id,table_name=post.model_id,sysname=sysname,instance_name=instance_name) }}">更多</a></td>
+{#                    <td class="text-center">#}
+{#                        <a role="button" class="btn btn-info btn-sm j-edit">编辑</a>#}
+{#                        <a role="button" class="btn btn-warning btn-sm j-del">删除</a>#}
+{#                    </td>#}
+                </tr>
+                {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+<!-- table e -->

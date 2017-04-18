@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}运维自动化{% endblock %}
+
+{% block style_add %}
+    <style>
+        .each-panel {
+            border-radius: 8px;
+            background-color: #fff !important;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+    <link href="{{ url_for('static',filename='sb-admin/dist/css/mod/mc-panel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static',filename='sb-admin/dist/css/mod/mc-rankProgress.css') }}" rel="stylesheet">
+    
+{% endblock style_add %}
+
+{% block page_content %}
+    <div id="page-wrapper">
+        <div class="page-header">
+            {% if current_user.is_authenticated %}
+            <div class="col-lg-12 main table-responsive">
+                <div  class="row">
+                    <!-- 为ECharts准备一个具备大小（宽高）的Dom
+                    {% for post in list_panel %}
+                    <div id="{{ post }}" class="col-md-3" style="height: 400px">
+                    </div>
+                    {% endfor %} -->
+                    <div class="col-md-4 mc-panel"></div>
+                    <div class="col-md-4 mc-panel"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="each-panel" id="J_stackline" style="height: 400px;">
+                        </div>
+                    </div>
+{#                    <div class="col-md-5">#}
+{#                        <div class="each-panel" id="J_deptRankProgressList" style="height: 400px;">#}
+{#                        </div>#}
+{#                    </div>#}
+                </div>
+                <div>
+                        {% if current_user.can(Permission.WRITE_ARTICLES) %}
+                        {{ wtf.quick_form(form) }}
+                        {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <a href="{{url_for('auth.login')}}">请登录</a>
+        {% endif %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_add %}
+    <script src="{{ url_for('static',filename='sb-admin/dist/js/mod/mc_panel.js') }}"></script>
+    <script src="{{ url_for('static',filename='sb-admin/dist/js/mod/mc_stackline.js') }}"></script>
+    <script src="{{ url_for('static',filename='sb-admin/dist/js/mod/mc_rankProgress.js') }}"></script>
+    <script>
+        // {% for post in list_panel%}
+        //     var myPanel = new mPanel();
+        //     /*用来配置参数*/
+        //     {% include "_panel.html" %}
+        //     myPanel.init({
+        //         'dom': document.getElementById('{{ post }}'),
+        //         'option': {{ post }}_option,
+        //     });
+        // {% endfor %}
+
+        var myOption = [
+            {
+                'data': {{ point_data | safe }}
+            },
+            {
+                'data': {{ point_data2 | safe }}
+            }
+        ]
+        $.each(myOption, function(index, option){
+            var myPanelOne = new mPanel();      // 注意在循环内部new对象        
+            myPanelOne.init({
+                'dom': $('.mc-panel').eq(index),
+                'option': option
+            })
+        })
+
+        /*
+         * stackline柱状图
+         */
+        var domA = document.getElementById("J_stackline");
+        var data = {{ point_chart | safe }};
+        
+        var stackLineChart = new mStackline();
+        stackLineChart.init({
+            dom:domA,
+            clickCallback:function(param) {
+                var name = param.name;
+                if (name == "用户数") {
+                    window.location.href = "${base}/admin/userst.htm";
+                } else if (name == "栏目数") {
+                    window.location.href = "${base}/admin/classifyst.htm";
+                } else if (name == "新闻数") {
+                    window.location.href = "${base}/admin/newsst.htm";
+                } else {
+                    window.location.href = "${base}/admin/filest.htm";
+                }
+            }
+        });
+        stackLineChart.render();
+        stackLineChart.setData(data);
+
+
+        /*
+         * 排序
+         */
+        var deptRankProgressList = new mRankProgress();
+        deptRankProgressList.init({
+            'dom':'#J_deptRankProgressList',
+            'option':{
+                'prefixClass':'pg',
+                'unit':'k',
+            }
+        });
+        var testData = [
+            {'name':'消化内科','score':'164.31','target':'45','account':'158054',},
+            {'name':'妇产科','score':'151.66','target':'45','account':'15',},
+            {'name':'神经内科','score':'141.05','target':'45','account':'15',},
+            {'name':'耳鼻咽喉科','score':'134.61','target':'45','account':'15',},
+            {'name':'急诊科','score':'124.19','target':'45','account':'15',},
+            {'name':'皮肤科','score':'119.12','target':'45','account':'15',},
+            {'name':'儿科二','score':'114.31','target':'45','account':'15',},
+            {'name':'小儿科','score':'107.38','target':'45','account':'15',},
+            {'name':'中医科','score':'99.53','target':'45','account':'15',},
+            {'name':'儿科','score':'96.08','target':'45','account':'15',},
+        ];
+        deptRankProgressList.setData( testData ); // 动态赋值,数值可以不按顺序排列
+        deptRankProgressList.render(); // 触发渲染
+        
+
+
+    </script>
+{% endblock %}
+

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}Flasky - Edit Post{% endblock %}
+
+{% block page_content %}
+    <div id="page-wrapper">
+    <div class="page-header">
+        <h1>编辑消息</h1>
+    </div>
+    <div>
+        {{ wtf.quick_form(form) }}
+    </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
+{% endblock %}
